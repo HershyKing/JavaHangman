@@ -1,17 +1,18 @@
 public class Line
 {
-  char theLine[];
-  int width;
+  private char theLine[];
+  private int width;
+  private char background;
 
-  //The constructor
   public Line(int width, char fill) throws LineException
   {
-    //Input a width and char to fill the line
     this.width = width;
+    this.background = fill;
+
     theLine = new char[this.width];
     if (this.width <= 0)
     {
-      throw new LineExcepion("A line must have a positive length");
+      throw new LineException("A line must have a positive length");
     }
     for (int i = 0; i  < this.width; i++) 
     {
@@ -24,7 +25,7 @@ public class Line
     this(width, ' ');
   }
 
-  void getWidth()
+  public int getWidth()
   {
     return this.width;
   } 
@@ -51,15 +52,18 @@ public class Line
   public String toString()
   {
     String retval = "";
+
     for (int i = 0; i < this.width; i++)
     {
       retval += this.theLine[i];
     }
-    retval += "\n";
+/*
+    retval = new String(theLine);
+*/
     return retval;
   }
 
-  public static void main(String args[])
+  public static void main(String args[]) throws LineException
   {
     Line myLine = new Line(50, '*');
 
