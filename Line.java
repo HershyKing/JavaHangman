@@ -4,14 +4,14 @@ public class Line
   int width;
 
   //The constructor
+  //Input a width and char to fill the line
   public Line(int width, char fill) throws LineException
   {
-    //Input a width and char to fill the line
     this.width = width;
     theLine = new char[this.width];
     if (this.width <= 0)
     {
-      throw new LineExcepion("A line must have a positive length");
+      throw new LineException("A line must have a positive length");
     }
     for (int i = 0; i  < this.width; i++) 
     {
@@ -19,16 +19,19 @@ public class Line
     }
   }
 
+  //If char == void
   public Line(int width) throws LineException
   {
     this(width, ' ');
   }
 
-  void getWidth()
+  //Get current width
+  public int getWidth()
   {
     return this.width;
   } 
 
+  //set char
   public void setChar(int x, char c)
   {
     if (x >= 0 && x < this.width)
@@ -38,6 +41,7 @@ public class Line
     return;
   }
 
+  //Input a position and get the current char 
   public char getChar(int x)
   {
     char retval = ' ';
@@ -59,7 +63,7 @@ public class Line
     return retval;
   }
 
-  public static void main(String args[])
+  public static void main(String args[]) throws LineException
   {
     Line myLine = new Line(50, '*');
 
