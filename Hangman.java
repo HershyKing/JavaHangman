@@ -3,10 +3,11 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
-class Hangman {
+public class Hangman {
 	private ArrayList<String> words = new ArrayList<>();
 	private String word;
 	private Scanner in;
+	public Screen gallows;
 	public ArrayList<Character> lettersGuessed = new ArrayList<>();
 
 	//Constructor
@@ -91,83 +92,130 @@ class Hangman {
 	}
 
 	//Graphics stuff
-
-	public void makeScreen(guess) throws ScreenException, PlotException {
+	public void makeScreen() throws ScreenException, PlotException {
 		try {
             this.gallows = new Screen(60, 50,' ');
             
         } catch(PlotException e){
             throw new ScreenException("Cannot create screen of that size.");
         }
+	}
 
-        //Makes the gallows
+	public void drawGallow() {
         for (int x = 0; x < 40; x++){
-            gallows.setPixel(x,49,'_');
+            this.gallows.setPixel(x,49,'_');
         }
         for (int x = 0; x < 50; x++){
-            gallows.setPixel(15,(49-x),'|');
+            this.gallows.setPixel(15,(49-x),'|');
         }
         for (int x = 0; x < 25; x++){
-            gallows.setPixel(15+x,0,'_');
+            this.gallows.setPixel(15+x,0,'_');
         }
         for (int x = 0; x < 5; x++){
-            gallows.setPixel(39,0+x,'|');
+            this.gallows.setPixel(39,0+x,'|');
         }
-
-        public void drawHead(guess) {
-        	for (int x = 0; x < 5; x++){
-            	gallows.setPixel(37+x,5,'_'); 
-        	} 
-	        for (int x = 0; x < 1; x++){
-	            gallows.setPixel(37,6+x,'0');
-	            gallows.setPixel(41,6+x,'0');
-	        }
-	        for (int x = 0; x < 4; x++){
-	            gallows.setPixel(35,6+x,'|');
-	            gallows.setPixel(43,6+x,'|');
-	        }
-	        for (int x = 0; x < 3; x++){
-	            gallows.setPixel(38+x,8,'_');
-	        }
-	        for (int x = 0; x < 5; x++){
-	            gallows.setPixel(37+x,9,'_');
-	        }
-        }
-
-        public void drawBody(guess) {
-        	for (int x = 0; x < 21; x++){
-	            gallows.setPixel(29+x,10,'_');
-	        }
-	        for (int x = 0; x < 15; x++){
-	            gallows.setPixel(29,10+x,'|');
-	            gallows.setPixel(50,10+x,'|');
-	        }
-	        for (int x = 0; x < 20; x++){
-	            gallows.setPixel(30+x,24,'_');
-	        }
-        }
-
-        public void drawLeftArm(guess) {
-        	
-        }
-
-        System.out.print(gallows.toString());
 	}
+
+    public void drawHead() {
+    	for (int x = 0; x < 5; x++){
+        	this.gallows.setPixel(37+x,5,'_'); 
+    	} 
+        for (int x = 0; x < 1; x++){
+            this.gallows.setPixel(37,6+x,'0');
+            this.gallows.setPixel(41,6+x,'0');
+        }
+        for (int x = 0; x < 4; x++){
+            this.gallows.setPixel(35,6+x,'|');
+            this.gallows.setPixel(43,6+x,'|');
+        }
+        for (int x = 0; x < 3; x++){
+            this.gallows.setPixel(38+x,8,'_');
+        }
+        for (int x = 0; x < 5; x++){
+            this.gallows.setPixel(37+x,9,'_');
+        }
+    }
+
+    public void drawBody() {
+    	for (int x = 0; x < 21; x++){
+            this.gallows.setPixel(29+x,10,'_');
+        }
+        for (int x = 0; x < 15; x++){
+            this.gallows.setPixel(29,10+x,'|');
+            this.gallows.setPixel(50,10+x,'|');
+        }
+        for (int x = 0; x < 20; x++){
+            this.gallows.setPixel(30+x,24,'_');
+        }
+    }
+
+    public void drawLeftArm() {
+    	for (int x = 0; x < 16; x++) {
+            this.gallows.setPixel(28,10+x,'|');
+            this.gallows.setPixel(23,10+x,'|');
+    	}
+    	for (int x = 0; x < 7; x++){
+        	this.gallows.setPixel(23+x,10,'_');
+    	}
+    }
+
+	public void drawRightArm() {
+    	for (int x = 0; x < 16; x++) {
+            this.gallows.setPixel(51,10+x,'|');
+        	this.gallows.setPixel(55,10+x,'|');
+    	}
+    	for (int x = 0; x < 7; x++){
+        	this.gallows.setPixel(49+x,10,'_');
+    	}
+    }        
+
+    public void drawLeftLeg() {
+    	for (int x = 0; x < 17; x++) {
+        	this.gallows.setPixel(30,25+x,'|');
+        	this.gallows.setPixel(39,25+x,'|');
+    	}
+    	for (int x = 0; x < 8; x++) {
+        	this.gallows.setPixel(31+x,41,'_');
+        }
+    }
+
+    public void drawRightLeg() {
+    	for (int x = 0; x < 17; x++) {
+        	this.gallows.setPixel(40,25+x,'|');
+        	this.gallows.setPixel(49,25+x,'|');
+    	}
+    	for (int x = 0; x < 8; x++) {
+        	this.gallows.setPixel(41+x,41,'_');
+        }
+    }
+
+    public void drawing(int guess) throws ScreenException, PlotException {
+    	this.makeScreen();
+    	switch (guess) {
+    		case 0: this.drawRightLeg();
+    		case 1: this.drawLeftLeg();
+    		case 2: this.drawRightArm();
+    		case 3: this.drawLeftArm();
+    		case 4: this.drawBody();
+    		case 5: this.drawHead();
+    		case 6: this.drawGallow();
+    				break;
+    		default: break;
+
+    	}
+    	System.out.println(this.gallows.toString());
+    }
 
 	public static void main(String args[]) throws FileNotFoundException, IOException, ScreenException, PlotException {
 		Scanner kb = new Scanner(System.in);
 		Scanner inp = new Scanner(System.in);
 		Hangman hm = new Hangman("words.txt");
-		// System.out.println(hm.getWords());
-		// System.out.println(hm.getWord());
-		// System.out.println(hm.getGuessedWord());
-		// System.out.println(hm.getAvailableLetters());
 		System.out.println("Welcome to the game HANGMAN!!!");
 		System.out.println("I'm thinking of a word that is " + hm.getWord().length() + " letters long.");
-		int guess = 7;
+		int guess = 6;
 		Character uInput;
-		hm.makeScreen();
 		while (!hm.isWordGuessed()) {
+			hm.drawing(guess);
 			System.out.println("You have " + guess + " guess(es) left.");
 			System.out.println("Available characters " + hm.getAvailableLetters());
 			System.out.print("Please guess a letter: ");
@@ -190,6 +238,7 @@ class Hangman {
 						guess = guess - 1;
 					else {
 						System.out.println("Sorry you ran out of guess.");
+						hm.drawing(guess);
 						System.out.println("The word is " + hm.getWord());
 						break;
 					} 
