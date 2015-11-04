@@ -90,7 +90,71 @@ class Hangman {
 		return retval;
 	}
 
-	public static void main(String args[]) throws FileNotFoundException, IOException {
+	//Graphics stuff
+
+	public void makeScreen(guess) throws ScreenException, PlotException {
+		try {
+            this.gallows = new Screen(60, 50,' ');
+            
+        } catch(PlotException e){
+            throw new ScreenException("Cannot create screen of that size.");
+        }
+
+        //Makes the gallows
+        for (int x = 0; x < 40; x++){
+            gallows.setPixel(x,49,'_');
+        }
+        for (int x = 0; x < 50; x++){
+            gallows.setPixel(15,(49-x),'|');
+        }
+        for (int x = 0; x < 25; x++){
+            gallows.setPixel(15+x,0,'_');
+        }
+        for (int x = 0; x < 5; x++){
+            gallows.setPixel(39,0+x,'|');
+        }
+
+        public void drawHead(guess) {
+        	for (int x = 0; x < 5; x++){
+            	gallows.setPixel(37+x,5,'_'); 
+        	} 
+	        for (int x = 0; x < 1; x++){
+	            gallows.setPixel(37,6+x,'0');
+	            gallows.setPixel(41,6+x,'0');
+	        }
+	        for (int x = 0; x < 4; x++){
+	            gallows.setPixel(35,6+x,'|');
+	            gallows.setPixel(43,6+x,'|');
+	        }
+	        for (int x = 0; x < 3; x++){
+	            gallows.setPixel(38+x,8,'_');
+	        }
+	        for (int x = 0; x < 5; x++){
+	            gallows.setPixel(37+x,9,'_');
+	        }
+        }
+
+        public void drawBody(guess) {
+        	for (int x = 0; x < 21; x++){
+	            gallows.setPixel(29+x,10,'_');
+	        }
+	        for (int x = 0; x < 15; x++){
+	            gallows.setPixel(29,10+x,'|');
+	            gallows.setPixel(50,10+x,'|');
+	        }
+	        for (int x = 0; x < 20; x++){
+	            gallows.setPixel(30+x,24,'_');
+	        }
+        }
+
+        public void drawLeftArm(guess) {
+        	
+        }
+
+        System.out.print(gallows.toString());
+	}
+
+	public static void main(String args[]) throws FileNotFoundException, IOException, ScreenException, PlotException {
 		Scanner kb = new Scanner(System.in);
 		Scanner inp = new Scanner(System.in);
 		Hangman hm = new Hangman("words.txt");
@@ -102,6 +166,7 @@ class Hangman {
 		System.out.println("I'm thinking of a word that is " + hm.getWord().length() + " letters long.");
 		int guess = 7;
 		Character uInput;
+		hm.makeScreen();
 		while (!hm.isWordGuessed()) {
 			System.out.println("You have " + guess + " guess(es) left.");
 			System.out.println("Available characters " + hm.getAvailableLetters());
@@ -109,12 +174,14 @@ class Hangman {
 			String s = inp.nextLine();
 			uInput = new Character(s.charAt(0));
 			uInput = Character.toUpperCase(uInput);
-			if (hm.getWords().contains(uInput)) {
+			System.out.println("--------------------");
+			if (hm.lettersGuessed.contains(uInput)) {
 				System.out.println("Oops you already guessed that character: " + hm.getGuessedWord());
 			} else {
 				hm.lettersGuessed.add(uInput);
+				System.out.println(hm.lettersGuessed);
 
-				if(hm.getWord().indexOf((char)uInput) > 0) {
+				if(hm.getWord().indexOf(uInput) > 0) {
 					System.out.println("Good guess " + hm.getGuessedWord());
 				} else {
 					System.out.println("Oops that's not in my word: " + hm.getGuessedWord());
