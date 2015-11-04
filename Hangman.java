@@ -77,7 +77,7 @@ class Hangman {
 
 	//print out all available letters
 	public String getAvailableLetters() {
-		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+		String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
 		String retval = "";
 
 		for(int i = 0; i < alphabet.length(); i++) {
@@ -90,8 +90,9 @@ class Hangman {
 		return retval;
 	}
 
-	public static void main(String args[]) throws FileNotFoundException {
+	public static void main(String args[]) throws FileNotFoundException, IOException {
 		Scanner kb = new Scanner(System.in);
+		Scanner inp = new Scanner(System.in);
 		Hangman hm = new Hangman("words.txt");
 		// System.out.println(hm.getWords());
 		// System.out.println(hm.getWord());
@@ -100,12 +101,36 @@ class Hangman {
 		System.out.println("Welcome to the game HANGMAN!!!");
 		System.out.println("I'm thinking of a word that is " + hm.getWord().length() + " letters long.");
 		int guess = 7;
-		char uInput;
+		Character uInput;
 		while (!hm.isWordGuessed()) {
 			System.out.println("You have " + guess + " guess(es) left.");
 			System.out.println("Available characters " + hm.getAvailableLetters());
-			System.out.println("Please guess a letter:");
-			uInput = kb.nextChar();
+			System.out.print("Please guess a letter: ");
+			String s = inp.nextLine();
+			uInput = new Character(s.charAt(0));
+			uInput = Character.toUpperCase(uInput);
+			if (hm.getWords().contains(uInput)) {
+				System.out.println("Oops you already guessed that character: " + hm.getGuessedWord());
+			} else {
+				hm.lettersGuessed.add(uInput);
+
+				if(hm.getWord().indexOf((char)uInput) > 0) {
+					System.out.println("Good guess " + hm.getGuessedWord());
+				} else {
+					System.out.println("Oops that's not in my word: " + hm.getGuessedWord());
+
+					if (guess > 1) 
+						guess = guess - 1;
+					else {
+						System.out.println("Sorry you ran out of guess.");
+						System.out.println("The word is " + hm.getWord());
+						break;
+					} 
+				}
+			}
+
+			if (hm.isWordGuessed()) 
+				System.out.println("Congrats! You won");
 		}
 	}
 }
