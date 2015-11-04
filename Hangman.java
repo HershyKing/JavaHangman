@@ -1,3 +1,9 @@
+/**
+---------------------
+Main contribution
+	TU V. TRAN
+---------------------
+**/
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
