@@ -240,7 +240,7 @@ public class Hangman {
 				} else {
 					System.out.println("Oops that's not in my word: " + hm.getGuessedWord());
 
-					if (guess > 1) 
+					if (guess > 0) 
 						guess = guess - 1;
 					else {
 						System.out.println("Sorry you ran out of guess.");
